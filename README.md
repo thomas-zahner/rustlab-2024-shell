@@ -20,6 +20,11 @@ When we were learning Rust, we always wanted to see a mid-size system being buil
 * [rust](https://www.rust-lang.org/tools/install)
 * [git](https://git-scm.com/)
 
+> [!TIP]
+> Please, disable AI code completions in your IDE.
+> This workshop should be a learning experience and since this repository
+> contains the solution, AI code completions will spoil the fun.
+
 ## Structure
 
 Use the [slides](./slides.pdf) to go through the exercises.
