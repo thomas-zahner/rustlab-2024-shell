@@ -35,21 +35,6 @@ We recommend to try it yourself first and only refer to the example code in case
 
 You can always check your implementation by running `cargo test`.
 
-## Features We Cover
-
-1. Running single commands
-2. Concatenating commands with semicolon
-3. Shell-builtins (`cd`)
-4. Pipes (very briefly)
-5. Ideas for extending your shell
-   - readline
-   - handling control signals (<kbd>Ctrl</kbd> + <kbd>c</kbd>, <kbd>Ctrl</kbd> + <kbd>d</kbd>)
-   - redirection
-   - command completion
-   - adding more builtins
-   - use a grammar for parsing
-   - Hints for the workshop
-
 ## Blocks
 
 Here are the individual blocks of work that we will cover:
@@ -57,10 +42,19 @@ Here are the individual blocks of work that we will cover:
 * Block 0 - Check Rust Installation and Version
 * Block 1 - Running Single Commands
 * Block 2 - Concatenating Commands
-* Block 3 - Shell Builtins
+* Block 3 - Shell Builtins. E.g. `cd`.
 * Block 4 - Shell History Support
 * Block 5 - Pipes
 * Block 6 - Bring your own features!
+
+> [!TIP]
+> Ideas for extending your shell in block 6:
+> - handling control signals (<kbd>Ctrl</kbd> + <kbd>c</kbd>, <kbd>Ctrl</kbd> + <kbd>d</kbd>)
+> - redirection
+> - command completion
+> - adding more builtins
+> - use a grammar for parsing
+> - Hints for the workshop
 
 ## Show And Tell!
 
