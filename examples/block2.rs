@@ -45,7 +45,6 @@ fn chains_from_line(line: String) -> Vec<Chain> {
         .collect()
 }
 
-
 // This struct doesn't use lifetimes to keep the code simple.
 // You can try to use `&str` instead of `String`
 // to avoid unnecessary allocations. 👍
@@ -79,15 +78,15 @@ impl Parser {
         }
     }
 
-    fn parse(mut self) -> Option<Chain> {
+    fn parse(&mut self) -> Option<Chain> {
         let mut elements = vec![];
         while let Some(e) = self.parse_next() {
             elements.push(e);
         }
-        if !elements.is_empty() {
-            Some(Chain { elements })
-        } else {
+        if elements.is_empty() {
             None
+        } else {
+            Some(Chain { elements })
         }
     }
 
