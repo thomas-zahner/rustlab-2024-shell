@@ -215,7 +215,7 @@ impl Parser {
             self.current += 1;
             match Element::parse_operator(&next) {
                 Some(operator) => Some(operator),
-                None => self.parse_cmd(next.to_string()).map(Element::Cmd),
+                None => self.parse_cmd(next).map(Element::Cmd),
             }
         })
     }
