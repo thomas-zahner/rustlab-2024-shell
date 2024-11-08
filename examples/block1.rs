@@ -6,7 +6,8 @@ use std::{
 };
 
 // This struct doesn't use lifetimes to keep the code simple.
-// You can try to use `&str` instead of `String` to avoid unnecessary allocations. 👍
+// You can try to use `&str` instead of `String`
+// to avoid unnecessary allocations. 👍
 #[derive(PartialEq, Debug)]
 struct Cmd {
     binary: String,
