@@ -249,12 +249,12 @@ impl Cmd {
     fn run(self) -> Option<Output> {
         let result = match self.binary.as_ref() {
             "cd" => {
-                let dir = self.args.get(0)?;
+                let dir = self.args.first()?;
                 let dir = std::path::PathBuf::from(dir);
                 builtins::Cd::new(dir).run()
             }
             "exit" => {
-                let status = match self.args.get(0) {
+                let status = match self.args.first() {
                     Some(status) => status.parse().unwrap_or(0),
                     None => 0,
                 };

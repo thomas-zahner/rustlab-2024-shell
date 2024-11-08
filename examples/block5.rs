@@ -122,7 +122,7 @@ fn main() {
     loop {
         show_prompt();
         let line = read_line();
-        history.add(&line.trim()).expect("Cannot open history file");
+        history.add(line.trim()).expect("Cannot open history file");
         let chains = chains_from_line(line);
         for chain in chains {
             let output = chain.run();
@@ -290,12 +290,12 @@ impl Cmd {
     fn run(&self, prev_output: Option<Output>) -> Option<Output> {
         let result = match self.binary.as_ref() {
             "cd" => {
-                let dir = self.args.get(0)?;
+                let dir = self.args.first()?;
                 let dir = std::path::PathBuf::from(dir);
                 builtins::Cd::new(dir).run()
             }
             "exit" => {
-                let status = self.args.get(0).and_then(|s| s.parse().ok()).unwrap_or(0);
+                let status = self.args.first().and_then(|s| s.parse().ok()).unwrap_or(0);
                 builtins::Exit::new(status).run()
             }
             "history" => builtins::History::new().run(),
