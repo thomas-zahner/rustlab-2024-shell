@@ -127,7 +127,9 @@ fn main() {
         history.add(line.trim()).expect("Cannot open history file");
         let chains = chains_from_line(line);
         for chain in chains {
-            chain.run();
+            if let Err(e) = chain.run() {
+                eprintln!("error: {e}");
+            }
         }
     }
 }
@@ -240,7 +242,7 @@ struct Chain {
 }
 
 impl Chain {
-    fn run(self) {
+    fn run(self) -> Result<()> {
         let mut prev_output: Option<Output> = None;
         for e in self.elements {
             match e {
@@ -248,14 +250,14 @@ impl Chain {
                     prev_output = cmd.run();
                 }
                 Element::And => {
-                    let status = prev_output.expect("no command before &&").status;
+                    let status = prev_output.ok_or("no command before &&")?.status;
                     if !status.success() {
                         break;
                     }
                     prev_output = None;
                 }
                 Element::Or => {
-                    let status = prev_output.expect("no command before ||").status;
+                    let status = prev_output.ok_or("no command before ||")?.status;
                     if status.success() {
                         break;
                     }
@@ -263,6 +265,7 @@ impl Chain {
                 }
             }
         }
+        Ok(())
     }
 }
 
