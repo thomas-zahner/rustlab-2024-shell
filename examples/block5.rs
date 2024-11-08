@@ -158,8 +158,7 @@ fn chains_from_line(line: String) -> Vec<Chain> {
     // This is inefficient because it parses the whole line.
     // If you feel adventurous, try to parse the line character by character instead. 🤠
     line.split(';')
-        .map(|s| s.to_string())
-        .filter_map(|s| Parser::new(&s).parse())
+        .filter_map(|s| Parser::new(s).parse())
         .collect()
 }
 
