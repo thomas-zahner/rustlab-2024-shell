@@ -23,12 +23,10 @@ impl Cmd {
     }
 
     fn run(self) {
-        match Command::new(self.binary).args(self.args).spawn() {
-            Ok(mut child) => {
-                child.wait().expect("command wasn't running");
-            }
-            Err(e) => eprintln!("{:?}", e),
-        }
+        Command::new(self.binary)
+            .args(self.args)
+            .status()
+            .expect("can't run command");
     }
 }
 
