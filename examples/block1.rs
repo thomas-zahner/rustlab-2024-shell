@@ -6,7 +6,8 @@ use std::{
 };
 
 // This struct doesn't use lifetimes to keep the code simple.
-// You can try to use `&str` instead of `String` to avoid unnecessary allocations. 👍
+// You can try to use `&str` instead of `String`
+// to avoid unnecessary allocations. 👍
 #[derive(PartialEq, Debug)]
 struct Cmd {
     binary: String,
@@ -23,12 +24,10 @@ impl Cmd {
     }
 
     fn run(self) {
-        match Command::new(self.binary).args(self.args).spawn() {
-            Ok(mut child) => {
-                child.wait().expect("command wasn't running");
-            }
-            Err(e) => eprintln!("{:?}", e),
-        }
+        Command::new(self.binary)
+            .args(self.args)
+            .status()
+            .expect("can't run command");
     }
 }
 
