@@ -82,6 +82,47 @@ mod builtins {
     }
 }
 
+fn main() {
+    loop {
+        show_prompt();
+        let line = read_line();
+        let chains = chains_from_line(line);
+        for chain in chains {
+            chain.run();
+        }
+    }
+}
+
+/// If `stdout` is printed to a terminal, print a prompt.
+/// Otherwise, do nothing. This allows to redirect the shell `stdout`
+/// to a file or another process, without the prompt being printed.
+fn show_prompt() {
+    let mut stdout = std::io::stdout();
+    if stdout.is_terminal() {
+        write!(stdout, "> ").unwrap();
+        // Flush stdout to ensure the prompt is displayed.
+        stdout.flush().expect("can't flush stdout");
+    }
+}
+
+fn read_line() -> String {
+    let mut line = String::new();
+    io::stdin()
+        .read_line(&mut line)
+        .expect("failed to read line from stdin");
+    line
+}
+
+fn chains_from_line(line: String) -> Vec<Chain> {
+    // For simplicity's sake, this workshop uses the split function.
+    // This is inefficient because it parses the whole line.
+    // If you feel adventurous, try to parse the line character by character instead. 🤠
+    line.split(';')
+        .map(|s| s.to_string())
+        .filter_map(|s| Parser::new(&s).parse())
+        .collect()
+}
+
 // This struct doesn't use lifetimes to keep the code simple.
 // You can try to use `&str` instead of `String`
 // to avoid unnecessary allocations. 👍
@@ -236,47 +277,6 @@ impl Cmd {
         let output = child.wait_with_output().expect("command wasn't running");
         Ok(Some(output))
     }
-}
-
-fn main() {
-    loop {
-        show_prompt();
-        let line = read_line();
-        let chains = chains_from_line(line);
-        for chain in chains {
-            chain.run();
-        }
-    }
-}
-
-/// If `stdout` is printed to a terminal, print a prompt.
-/// Otherwise, do nothing. This allows to redirect the shell `stdout`
-/// to a file or another process, without the prompt being printed.
-fn show_prompt() {
-    let mut stdout = std::io::stdout();
-    if stdout.is_terminal() {
-        write!(stdout, "> ").unwrap();
-        // Flush stdout to ensure the prompt is displayed.
-        stdout.flush().expect("can't flush stdout");
-    }
-}
-
-fn read_line() -> String {
-    let mut line = String::new();
-    io::stdin()
-        .read_line(&mut line)
-        .expect("failed to read line from stdin");
-    line
-}
-
-fn chains_from_line(line: String) -> Vec<Chain> {
-    // For simplicity's sake, this workshop uses the split function.
-    // This is inefficient because it parses the whole line.
-    // If you feel adventurous, try to parse the line character by character instead. 🤠
-    line.split(';')
-        .map(|s| s.to_string())
-        .filter_map(|s| Parser::new(&s).parse())
-        .collect()
 }
 
 #[cfg(test)]

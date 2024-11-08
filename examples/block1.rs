@@ -5,32 +5,6 @@ use std::{
     process::Command,
 };
 
-// This struct doesn't use lifetimes to keep the code simple.
-// You can try to use `&str` instead of `String`
-// to avoid unnecessary allocations. 👍
-#[derive(PartialEq, Debug)]
-struct Cmd {
-    binary: String,
-    args: Vec<String>,
-}
-
-impl Cmd {
-    fn from_line(line: &str) -> Option<Self> {
-        let mut parts = line.split_whitespace().map(String::from);
-        parts.next().map(|binary| Cmd {
-            binary,
-            args: parts.collect(),
-        })
-    }
-
-    fn run(self) {
-        Command::new(self.binary)
-            .args(self.args)
-            .status()
-            .expect("can't run command");
-    }
-}
-
 fn main() {
     loop {
         show_prompt();
@@ -59,6 +33,32 @@ fn read_line() -> String {
         .read_line(&mut line)
         .expect("failed to read line from stdin");
     line
+}
+
+// This struct doesn't use lifetimes to keep the code simple.
+// You can try to use `&str` instead of `String`
+// to avoid unnecessary allocations. 👍
+#[derive(PartialEq, Debug)]
+struct Cmd {
+    binary: String,
+    args: Vec<String>,
+}
+
+impl Cmd {
+    fn from_line(line: &str) -> Option<Self> {
+        let mut parts = line.split_whitespace().map(String::from);
+        parts.next().map(|binary| Cmd {
+            binary,
+            args: parts.collect(),
+        })
+    }
+
+    fn run(self) {
+        Command::new(self.binary)
+            .args(self.args)
+            .status()
+            .expect("can't run command");
+    }
 }
 
 #[cfg(test)]
