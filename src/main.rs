@@ -1,47 +1,52 @@
-use std::io::Write;
+use std::io::{IsTerminal, Write};
 use std::{io, process};
 
 fn main() {
     loop {
         show_prompt();
         let command = read_line();
-
-        process::Command::new(command.binary)
-            .args(command.args)
-            .status()
-            .expect("Error");
+        command.run();
     }
 }
 
 fn show_prompt() {
-    print!("> ");
-    io::stdout().flush().unwrap();
+    let mut stdout = io::stdout();
+    if stdout.is_terminal() {
+        print!("> ");
+        stdout.flush().unwrap();
+    }
 }
 
 fn read_line() -> Command {
     let mut buffer = String::new();
     io::stdin().read_line(&mut buffer).unwrap();
-    buffer.pop(); // pop the newline
     buffer.into()
 }
 
 #[derive(Debug)]
 struct Command {
-    binary: String,
+    binary: Option<String>,
     args: Vec<String>,
+}
+
+impl Command {
+    fn run(&self) {
+        if let Some(binary) = self.binary.clone() {
+            process::Command::new(binary)
+                .args(self.args.clone())
+                .status()
+                .expect("Error while running process");
+        }
+    }
 }
 
 impl From<String> for Command {
     fn from(value: String) -> Self {
-        let split: Vec<_> = value.split_whitespace().map(|s| s.to_string()).collect();
-
-        if split.len() == 0 {
-            todo!()
-        }
+        let mut split = value.trim().split_whitespace().map(|s| s.to_string());
 
         Self {
-            binary: split[0].clone().into(),
-            args: split[1..].to_vec(),
+            binary: split.next(),
+            args: split.collect(),
         }
     }
 }
