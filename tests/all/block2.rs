@@ -8,7 +8,6 @@ const SHELL_TIMEOUT: Duration = Duration::from_secs(3);
 fn shell_runs_pwd_twice() {
     let output = ShellRunner::new()
         .with_stdin("pwd; pwd")
-        // .example("block2")
         .kill_after(SHELL_TIMEOUT)
         .run();
 
@@ -22,7 +21,6 @@ fn shell_runs_pwd_twice() {
 fn shell_understands_and_operator() {
     let output = ShellRunner::new()
         .with_stdin("echo hello && echo world")
-        .example("block2")
         .kill_after(SHELL_TIMEOUT)
         .run();
 
@@ -34,7 +32,6 @@ fn shell_understands_and_operator() {
 fn shell_understands_or_operator() {
     let output = ShellRunner::new()
         .with_stdin("echo hello || echo world")
-        .example("block2")
         .kill_after(SHELL_TIMEOUT)
         .run();
 

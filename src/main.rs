@@ -1,5 +1,5 @@
 use std::io::{IsTerminal, Write};
-use std::{io, process};
+use std::{env, io, process};
 
 fn main() {
     loop {
@@ -33,10 +33,27 @@ struct Command {
 impl Command {
     fn run(&self) {
         if let Some(binary) = self.binary.clone() {
-            process::Command::new(binary)
-                .args(self.args.clone())
-                .status()
-                .expect("Error while running process");
+            match binary.as_str() {
+                "cd" => self.cd(),
+                "exit" => process::exit(0),
+                binary => {
+                    process::Command::new(binary)
+                        .args(self.args.clone())
+                        .status()
+                        .expect("Error while running process");
+                }
+            };
+        }
+    }
+
+    fn cd(&self) {
+        match self.args.len() {
+            1 => {
+                let current = env::current_dir().expect("Unable to get working directory");
+                let new = current.join(self.args[0].clone());
+                env::set_current_dir(new).unwrap_or_else(|e| eprintln!("{e}"));
+            }
+            _ => eprintln!("Expected exactly one argument"),
         }
     }
 }

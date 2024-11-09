@@ -6,7 +6,6 @@ use crate::utils::ShellRunner;
 fn shell_runs_pwd() {
     let output = ShellRunner::new()
         .with_stdin("pwd")
-        // .example("block1")
         .kill_after(Duration::from_secs(1))
         .run();
 
