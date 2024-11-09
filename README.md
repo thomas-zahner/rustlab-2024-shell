@@ -33,7 +33,13 @@ Use `src/main.rs` to start writing your code.
 If you get stuck, check out the [examples](/examples) folder, which contains working source code for each block.
 We recommend to try it yourself first and only refer to the example code in case you run into issues.
 
-You can always check your implementation by running `cargo test`.
+## Run tests
+
+You can find tests for each block in the `tests` folder.
+By default, tests run the example code for each block.
+When you are ready to test your own implementation,
+comment the `.example()` call in the test and run `cargo test blockN`
+(e.g. `cargo test block1`).
 
 ## Blocks
 
