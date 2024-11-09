@@ -71,6 +71,7 @@ impl<'a> ShellRunner<'a> {
         if let Some(duration) = self.kill_after {
             std::thread::sleep(duration);
             child.kill().unwrap();
+            println!("Timeout: killed the shell after {:?}", duration);
         }
 
         child.wait_with_output().unwrap()
