@@ -8,7 +8,7 @@ const SHELL_TIMEOUT: Duration = Duration::from_secs(3);
 fn shell_runs_pwd_twice() {
     let output = ShellRunner::new()
         .with_stdin("pwd; pwd")
-        .example("block2")
+        // .example("block2")
         .kill_after(SHELL_TIMEOUT)
         .run();
 

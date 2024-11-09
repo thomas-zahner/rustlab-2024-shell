@@ -4,8 +4,9 @@ use std::{io, process};
 fn main() {
     loop {
         show_prompt();
-        let command = read_line();
-        command.run();
+        for command in read_line() {
+            command.run();
+        }
     }
 }
 
@@ -17,10 +18,10 @@ fn show_prompt() {
     }
 }
 
-fn read_line() -> Command {
+fn read_line() -> Vec<Command> {
     let mut buffer = String::new();
     io::stdin().read_line(&mut buffer).unwrap();
-    buffer.into()
+    buffer.split(';').map(|s| s.to_string().into()).collect()
 }
 
 #[derive(Debug)]
