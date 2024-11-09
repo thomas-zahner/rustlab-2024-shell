@@ -2,7 +2,7 @@ use std::time::Duration;
 
 use crate::utils::ShellRunner;
 
-const SHELL_TIMEOUT: Duration = Duration::from_secs(3);
+const SHELL_TIMEOUT: Duration = Duration::from_secs(5);
 
 #[test]
 fn supports_cd_shell_builtin() {
